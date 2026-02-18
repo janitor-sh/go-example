@@ -1,0 +1,17 @@
+name: Janitor
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  janitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Janitor
+        uses: janitor-sh/action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}

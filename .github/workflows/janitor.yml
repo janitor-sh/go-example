@@ -8,14 +8,17 @@ on:
 
 jobs:
   janitor:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
 
       - name: Run Janitor
         uses: janitor-sh/action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          no_commit: "true"
+          auto_commit: "true"

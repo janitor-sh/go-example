@@ -27,3 +27,6 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           tool: "ruff"
+
+      - name: Push Janitor commit
+        run: git push

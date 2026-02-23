@@ -16,17 +16,15 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
-      - name: Install ruff
-        run: python -m pip install ruff
+      - name: Run go fmt
+        run: go fmt ./...
 
-      - name: Install biome
-        run: npm install -g @biomejs/biome
-
-      - name: Run Janitor
-        uses: janitor-sh/action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          tool: "ruff"
-
-      - name: Push Janitor commit
-        run: git push
+      - name: Commit and push formatting changes
+        run: |
+          git config user.name "janitor-sh[bot]"
+          git config user.email "janitor-sh[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- .; then
+            git add -u
+            git commit -m "chore(janitor): apply automated lint/format fixes"
+            git push
+          fi

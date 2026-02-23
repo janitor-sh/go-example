@@ -18,7 +18,7 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
 
       - name: Run Janitor
-        uses: janitor-sh/action@main
+        uses: janitor-sh/action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          auto_commit: "true"
+          no_commit: "true"
